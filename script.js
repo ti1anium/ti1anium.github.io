@@ -1,5 +1,6 @@
 const main = document.getElementById('main');
 const list = document.getElementById('list');
+const intro = document.getElementById('intro');
 
 (async () => {
     let currentPage;
