@@ -69,6 +69,7 @@ nav a:hover {
 
 #main h1 {
     color: #efefef;
+    font-size: 18px;
 }
 
 main {
@@ -152,6 +153,14 @@ nav,
 
     animation: 1s ease-in-out 1s intro-fade-out;
     animation-fill-mode: forwards;
+}
+
+#intro img {
+    filter: blur(2px);
+}
+
+hr {
+    margin-block: 8px;
 }
 
 @keyframes intro-fade-out {
