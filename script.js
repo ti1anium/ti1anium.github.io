@@ -1,32 +1,52 @@
-const main = document.getElementById('main');
-const list = document.getElementById('list');
-const intro = document.getElementById('intro');
+const buttonList = document.getElementById("projects-buttons");
+const container = document.getElementById("projects-container");
+
+const projects = [];
+let currentIndex = 0;
+
+function render () {
+    let buttons = '';
+
+    projects.forEach((v, i) => {
+        if (i == currentIndex) {
+            buttons += `
+                <button class="project-button selected" onclick="setIndex(${i})">${v.Name}</button>
+            `;
+        } else {
+            buttons += `
+                <button class="project-button" onclick="setIndex(${i})">${v.Name}</button>
+            `;
+        }
+    });
+
+    buttonList.innerHTML = buttons;
+    container.innerHTML = projects[currentIndex].Text;
+}
+
+function setIndex (index) {
+    currentIndex = index;
+    render();
+}
 
 (async () => {
-    let currentPage;
 
-    const data = await (await fetch("/subjects/subjects-data.json")).json();
-    const pages = data.pages;
+    const res = await fetch("/projects/list.json");
+    const list = await res.json();
 
-    pages.forEach(v => {
-        const element = document.createElement('a');
+    list.forEach(async v => {
+        const res = await fetch(`/projects/${v.File}`);
+        const text = await res.text();
 
-        element.innerText = v;
+        projects.push({
+            Name: v.Name,
+            Text: text
+        });
 
-        element.onclick = async e => {
-            e.preventDefault();
-            
-            if (currentPage == v)
-                return;
+        projects.sort((a, b) => {
+            return a.Id < b.Id
+        });
 
-            currentPage = v;
-
-            const data = await (await fetch("/subjects/" + v + ".html")).text();
-            
-            main.innerHTML = data;
-        }
-        
-        list.appendChild(element);
+        render();
     });
 
 })();
