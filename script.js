@@ -1,7 +1,7 @@
 const buttonList = document.getElementById("projects-buttons");
 const container = document.getElementById("projects-container");
 
-const projects = [];
+let projects = [];
 let currentIndex = 0;
 
 function render () {
@@ -43,7 +43,7 @@ function setIndex (index) {
         });
 
         projects.sort((a, b) => {
-            return a.Id < b.Id
+            return a.Id - b.Id
         });
 
         render();
